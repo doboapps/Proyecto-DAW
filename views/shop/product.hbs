@@ -1,0 +1,55 @@
+
+<nav id="category-nav">
+    <ul>
+        <li>
+            <a class="{{markAll}}" href="/{{{lang}}}/products">{{langWords.all}}</a>
+        </li>
+        {{#each categories}}
+        <li>
+            <a id="{{name}}" href="/{{{../lang}}}/products/{{name}}">{{name}}</a>
+        </li>
+
+        {{/each}}
+    </ul>
+
+</nav>{{products}}
+
+
+<button id="add-product">{{products.name}}Añadir a la cesta</button>
+
+
+<script>
+    $( document ).ready(function() {
+        
+
+        $("#add-product").click(function(){
+            
+            {{#each products}}
+           /* 
+            localStorage.removeItem('');
+           
+           if(localStorage.getItem('{{_id}}')==null)
+            localStorage.setItem("cart",{'{{_id}}':1}); 
+            else
+            localStorage.setItem("cart",{'{{_id}}':parseInt(localStorage.getItem('{{_id}}'))+1}); 
+            
+            console.log(localStorage.getItem("cart"));*/
+           $.ajax({
+                url:'/{{../lang}}/add-to-cart/{{_id}}' ,
+                type: "get",
+                success: function(res) {
+                    console.log(res);
+                },
+                error: function(res) {
+                    console.log("No se ha podido obtener la información"+res);
+                }
+            });
+
+            {{/each}}
+         });
+    });
+
+
+
+    
+</script>

@@ -1,0 +1,1 @@
+{"version":3,"sources":["styles.scss"],"names":[],"mappings":"AAAA;EACI,mBAAkB;EAClB,aAAY;EACZ,UAAS,EACZ","file":"../styles.css","sourcesContent":["body{\r\n    background: tomato;\r\n    color: white;\r\n    margin: 0;\r\n}"]}

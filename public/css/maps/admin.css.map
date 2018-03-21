@@ -1,0 +1,1 @@
+{"version":3,"sources":["admin.scss"],"names":[],"mappings":"AAAA;EACI,mBAAkB;EAClB,aAAY,EACf","file":"../admin.css","sourcesContent":["body{\r\n    background: tomato;\r\n    color: white;\r\n}\r\n\r\n"]}

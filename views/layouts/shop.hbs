@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+
+<head>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{path}}css/reset.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="{{path}}css/shop.css">
+        <script src="{{path}}js/modernizr.js"></script>
+
+        <title>Shop</title>
+
+    </head>
+
+    <body class="foo">
+        <header>
+            <div id="logo">
+                <img src="{{path}}images/cd-logo.svg" alt="Homepage">
+            </div>
+
+            <div id="cd-hamburger-menu">
+                <a class="cd-img-replace" href="#0">Menu</a>
+            </div>
+            <div id="cd-cart-trigger">
+                <a class="cd-img-replace" href="#0">Cart</a>
+            </div>
+        </header>
+
+        <nav id="main-nav">
+            <ul>
+                <li>
+                    <a class="{{markHome}}" href="{{path}}{{lang}}">{{langWords.home}}</a>
+                </li>
+                <li>
+                    <a class="{{markAbout}}" href="#0">{{langWords.about}}</a>
+                </li>
+                <li>
+                    <a class="{{markProducts}}" href="{{path}}{{lang}}/products">{{langWords.products}}</a>
+                </li>
+                <li>
+                    <a class="{{markGalery}}" href="#0">{{langWords.gallery}}</a>
+                </li>
+                <li>
+                    <a class="{{markContact}}" href="#0">{{langWords.contact}}</a>
+                </li>
+                <li>
+                    <select id="language-select" class="form-control">
+                        <option id="option-es" value="/es{{url}}">es</option>
+                        <option id="option-en" value="/en{{url}}">en</option>                
+                    </select>
+                </li>
+            </ul>
+        </nav>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        {{{body}}}
+
+        <div id="cd-shadow-layer"></div>
+
+        <div id="cd-cart">
+            <h2>Cart</h2>
+            <ul class="cd-cart-items">
+                <span>
+                 {{#each cart}}
+                <li>
+                    <span class="cd-qty">{{this.__v}}x</span> {{this.name}}
+                    <div class="cd-price">{{this.price}}€</div>
+                    <a href="#0" class="cd-item-remove cd-img-replace">Remove</a>
+                </li>
+                {{/each}}
+                
+
+            </ul>
+            <!-- cd-cart-items -->
+
+            <div class="cd-cart-total">
+                
+                <p>Total 
+                    
+                    </span>
+                </p>
+            </div>
+            <!-- cd-cart-total -->
+
+            <a href="#0" class="checkout-btn">Checkout</a>
+
+            <p class="cd-go-to-cart">
+                <a href="#0">Go to cart page</a>
+            </p>
+        </div>
+        <!-- cd-cart -->
+
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script src="{{path}}js/main.js"></script>
+        <script>
+           $("#option-{{lang}}").attr("selected",true);
+        </script>
+    </body>
+
+</html>

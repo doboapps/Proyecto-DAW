@@ -1,0 +1,67 @@
+
+<div class="container-fluid text-center">
+
+
+
+    <div class=""><br>
+         <h4>Lista de Productos</h4><br>
+
+        <div id="list-products"  class="content text-right col-md-4 offset-md-4">
+        
+            <table class="table">
+                <tbody >
+                    {{#each products}}
+                    <tr>
+                        <td><button  id="{{id}}" title="Eliminar"  name="delete" type="delete" class="btn btn-outline-danger"><i class="fa fa-remove"></i></button></td>
+                        <td class="text-center">{{name}}</td>
+                        <td><button  id="{{id}}" title="Editar Producto"  name="update" type="delete" class="btn btn-outline-success"><i class="fa fa-pencil"></i></button></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        
+
+        </div><br>
+
+    </div>
+
+
+</div>
+
+
+
+<script type="text/javascript">
+
+
+$(document).ready(function(e) {
+
+    $('button').click(function() {
+
+            var xmlhttp = new XMLHttpRequest();
+            var idCategory =this.id;
+
+            switch(this.name) {
+
+           case "delete":  bootbox.confirm("¿Seguro que desea eliminarla?", function(result){
+            sendAjaxHttp(xmlhttp,"DELETE",`Bearer {{{sessionToken}}}`,`/ddbb/delete-product/${idCategory}`,null);                           
+                            });
+            
+                break;
+            case "update":  window.location.href = 'edit/'+idCategory;
+                break;
+            }
+
+            xmlhttp.onreadystatechange=function(){
+                if(xmlhttp.readyState==4){ 
+                    var resp = xmlhttp.responseText;
+                    var respJSON = JSON.parse(resp);             
+                    console.log(respJSON);
+                    location.reload();             
+                }
+            }
+    });
+
+});
+
+
+</script>

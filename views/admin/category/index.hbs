@@ -1,0 +1,144 @@
+<div class="container-fluid text-center">
+
+    <div class="col-md-4 offset-md-4 ">
+        <br>
+
+        <div class="form-group">
+            <h4>Agregar Categorías</h4>
+            <small class="form-text text-muted text-left">
+                <br>Nombre de la categoría en
+                <b>español</b>.</small>
+            <input type="text" class="form-control" id="name-esp" placeholder="Nombre de la categoría">
+            <small class="form-text text-muted text-left">
+                <br>Nombre de la categoría en
+                <b>inglés</b>.</small>
+            <input type="text" class="form-control" id="name-eng" placeholder="Name of category">
+
+        </div>
+        <button name="create" class="btn  btn-outline-primary"><i class="fa fa-plus"></i> Añadir</button>
+
+    </div>
+    <br>
+
+    <div class=" bg-light">
+        <br>
+        <h4>Eliminar/Editar Categorías</h4>
+        <br>
+
+        <div class="content text-right col-md-6 offset-md-3">
+
+            <table class="table">
+                <tbody >
+                    {{#each categories}}
+                    <tr>
+                        <td><button id="{{id}}" title='Cambiar nombre en español' name="update" lang="esp" class="btn btn-outline-success"><i class="fa fa-pencil"></i></button></td>
+                        <td>{{name}}</td>
+                        <td><button id="{{id}}" title='Eliminar Categoría' name="delete" type="delete" class="btn btn-outline-danger"><i class="fa fa-remove"></i></button></td>
+                        <td>{{nameEng}}</td>
+                        <td><button id="{{id}}" title='Cambiar nombre en inglés' name="update" lang="eng" class="btn btn-outline-success"><i class="fa fa-pencil"></i></button></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+    var removeTildes = (function () {
+        var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+            to = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+            mapping = {};
+
+        for (var i = 0, j = from.length; i < j; i++)
+            mapping[from.charAt(i)] = to.charAt(i);
+
+        return function (str) {
+            var ret = [];
+            for (var i = 0, j = str.length; i < j; i++) {
+                var c = str.charAt(i);
+                if (mapping.hasOwnProperty(str.charAt(i)))
+                    ret.push(mapping[c]);
+                else
+                    ret.push(c);
+            }
+            return ret.join('');
+        }
+
+    })();
+
+
+
+
+
+    const xmlhttp = new XMLHttpRequest();
+
+    $(document).ready(function (e) {
+
+        $('button').click(function () {
+
+            var xmlhttp = new XMLHttpRequest();
+            var idCategory = this.id;
+
+            switch (this.name) {
+                case "create": var newCategoryEsp = $('#name-esp').val().toLowerCase();
+                    var newCategoryEng = $('#name-eng').val().toLowerCase();
+                    if (newCategoryEsp == "") { newCategoryEsp = "campo Vacío" }
+                    if (newCategoryEng == "") { newCategoryEng = "field empty" }
+
+                    sendAjaxHttp(xmlhttp, "POST", `Bearer {{{sessionToken}}}`, `/ddbb/create-category`, { name: removeTildes(newCategoryEsp), nameEng: removeTildes(newCategoryEng) });
+
+                    break;
+
+                case "delete": bootbox.confirm("¿Seguro que desea eliminarla?", function (result) {
+                    if (result)
+                        sendAjaxHttp(xmlhttp, "DELETE", `Bearer {{{sessionToken}}}`, `/ddbb/delete-category/${idCategory}`, null);
+
+                });
+
+                    break;
+                case "update": var lang = this.lang;
+                    bootbox.prompt("Escriba el nuevo nombre de la categoría:", function (resultPrompt) {
+                        if (resultPrompt != null) {
+                            let nameCategory = {}
+                            if (lang == "esp")
+                                nameCategory = { name: removeTildes(resultPrompt.toLowerCase()) }
+                            else if (lang = "eng")
+                                nameCategory = { nameEng: removeTildes(resultPrompt.toLowerCase()) }
+
+                            sendAjaxHttp(xmlhttp, "PUT", `Bearer {{{sessionToken}}}`, '/ddbb/update-category/' + idCategory, nameCategory);
+                        }
+                    });
+                    break;
+            }
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+                    var resp = xmlhttp.responseText;
+                    var respJSON = JSON.parse(resp);
+                    console.log(respJSON);
+                    location.reload();
+                }
+            }
+        });
+
+    });
+
+
+
+
+</script>

@@ -1,0 +1,121 @@
+<form class="container col-md-6 offset-md-3 " id="formproduct" onsubmit="return sendForm();">
+    <div class="form-group">
+        <label for="formGroupExampleInput" >Nombre Español:</label>
+        <input type="text" class="form-control" id="name" placeholder="nombre del producto">
+    </div>
+
+    <div class="form-group">
+        <label for="formGroupExampleInput" >Nombre Inglés:</label>
+        <input type="text" class="form-control" id="nameEng" placeholder="name of product">
+    </div>    
+
+    <div class="form-group">
+        <label for="formGroupExampleInput2" >Stock</label>
+        <input type="number" value="0" class="form-control" id="stock" placeholder="Nº unidades en stock">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputFile">Imagen 1</label><br>
+        <input readonly id="fieldimg1" style="float:left" type="text"  class="form-control col-md-6" id="picture1" placeholder="nombre del producto">
+         <div onclick="popUp('picture1')"  id="img1"  class="btn btn-outline-success"> Subir</div>  
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputFile">Imagen 2</label><br>
+        <input readonly style="float:left" type="text" class="form-control col-md-6" id="picture2" placeholder="nombre del producto">
+        <div onclick="popUp('picture2')"  id="img2"   class="btn btn-outline-success"> Subir</div>  
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputFile">Imagen 3</label><br>
+        <input readonly style="float:left" type="text" class="form-control col-md-6" id="picture3" placeholder="nombre del producto">
+        <div onclick="popUp('picture3')"   id="img3"  class="btn btn-outline-success"> Subir</div>  
+    </div>
+
+     <div class="form-group">
+        <label for="exampleInputFile">Imagen 4</label><br>
+        <input readonly style="float:left" type="text" class="form-control col-md-6" id="picture4" placeholder="nombre del producto">
+        <div onclick="popUp('picture4')"   id="img4"  class="btn btn-outline-success"> Subir</div>  
+    </div>
+
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Precio</label>
+        <input type="number" value="0" class="form-control" id="price" placeholder="Precio del producto">
+    </div>
+
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Precio el Kg</label>
+        <input type="number" value="0" class="form-control" id="pricekg" placeholder="Precio del producto">
+    </div>    
+
+    <div class="form-group">
+        <label class="mr-sm-2" for="inlineFormCustomSelect">Nuevo</label>
+        <select  class="custom-select mb-2 mr-sm-2 mb-sm-0" id="news">
+            <option value="true">Si</option>
+            <option value="false">No</option>
+
+        </select>        
+    </div>
+
+    <div class="form-group">
+        <label class="mr-sm-2" for="inlineFormCustomSelect">Categoría</label>
+        <select id="category" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="select-category">
+            {{#each categories}}  
+                <option value="{{id}}">{{name}}</option>  
+            {{/each}}
+        </select>        
+    </div>
+    <div class="form-group">
+        <label for="exampleTextarea">Descripción en Español</label>
+        <textarea class="form-control" id="description" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleTextarea">Descripción en Inglés</label>
+        <textarea class="form-control"  id="descriptionEng" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Peso</label>
+        <input type="number" value="0" class="form-control" id="weight" placeholder="Precio el kilogramo">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear</button><br>
+
+
+</form><br>
+
+
+
+
+
+<script type="text/javascript">
+
+
+    //obtejer lista de categías
+    const xmlhttp = new XMLHttpRequest();
+
+    function popUp(fidFieldImg){
+            var myPopUp = window.open("../../admin/upload-image",fidFieldImg,"width=450,height=300");           
+    }    
+    
+
+    function sendForm(){
+        const formProduct = document.querySelector("#formproduct")
+        formData=formToJson(formProduct);
+        //console.log(formData);
+        sendAjaxHttp(xmlhttp,"POST",`Bearer {{{sessionToken}}}`,'/ddbb/create-product',formData); 
+
+        xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState==4){ 
+                var resp = xmlhttp.responseText;
+                var respJSON = JSON.parse(resp);
+ 
+                console.log(respJSON);  
+                bootbox.alert("Articulo subido correctamente!", function(){ 
+                    $('#formproduct')[0].reset();  });                                           
+            }            
+        }
+        return false;
+    }
+</script>

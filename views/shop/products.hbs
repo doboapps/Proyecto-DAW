@@ -1,0 +1,42 @@
+<nav id="category-nav">
+    <ul>
+        <li>
+            <a class="{{markAll}}" href="/{{{lang}}}/products">{{langWords.all}}</a>
+        </li>
+        {{#each categories}}
+        <li>
+            <a id="{{name}}" href="/{{{../lang}}}/products/{{name}}">{{name}}</a>
+        </li>
+        {{/each}}
+    </ul>
+
+</nav>
+<main>
+
+    <ul id="cd-gallery-items" class="cd-container">
+
+        {{#each products}}
+        <li>
+            {{#if ../es}} {{name}}   {{/if}}
+            {{#if ../en}} {{nameEng}} {{/if}}
+
+
+            <a href="/{{../lang}}/product/{{_id}}">
+            <img src="{{../path}}images/thumb.jpg" alt="Preview image">
+            </a>
+        </li>
+        {{/each}}
+
+    </ul>
+    <!-- cd-gallery-items -->
+</main>
+
+<script>
+    let category="{{actualCategory}}";
+    
+    if(category!="")
+        $('#{{actualCategory}}').addClass('current-category');
+    
+    
+
+</script>

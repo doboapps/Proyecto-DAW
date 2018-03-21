@@ -1,0 +1,93 @@
+
+<form id="formImg" class="container col-md-6 offset-md-3 " action="../ddbb/upload-images" method="post" enctype="multipart/form-data" onsubmit="return sendForm();"><br><br>
+    
+    <div class="form-group">
+        <label for="formGroupExampleInput" >Nombre:</label>
+        <input type="text" class="form-control" name="name" placeholder="nombre para la imagen">
+    </div>
+    
+    <div class="form-group">
+        <label for="exampleInputFile">Imagen 1</label>
+        <input type="file"  class="form-control-file"  name="picture">
+        <small id="fileHelp1"  class="form-text text-muted" >Seleccione la imagen que desea subir.</small>
+    </div>
+
+        <button id="btnSubmit"   type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+
+
+<script>
+
+         
+            results = location.search;
+                        console.log(window.name);
+
+$(document).ready(function () {
+
+    function changeColor(id){
+        opener.document.getElementById(id).style.borderColor="blue";
+        opener.document.getElementById(id).style.color="blue";
+        opener.document.getElementById(id).innerHTML="✓ Subido";
+    }
+
+     $("#btnSubmit").click(function (event) {
+
+
+    
+        event.preventDefault();
+        var form = $('#formImg')[0];
+        var data = new FormData(form);
+        
+        $("#btnSubmit").prop("disabled", true);
+
+             $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "../admin/upload-images",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+
+                    //$("#result").text(data);
+                    console.log("SUCCESS : ", data);
+                    $("#btnSubmit").prop("disabled", false);
+
+                    switch(window.name) {
+                        case "picture1":
+                            opener.document.forms[0].picture1.value=data.path;
+                            changeColor("img1");                           
+                            break;
+                        case "picture2":
+                            opener.document.forms[0].picture2.value=data.path;
+                            changeColor("img2"); 
+                            break;
+                        case "picture3":
+                            opener.document.forms[0].picture3.value=data.path;
+                            changeColor("img3"); 
+                            break;
+                        case "picture4":
+                            opener.document.forms[0].picture4.value=data.path;
+                            changeColor("img4"); 
+                            break;
+                        
+                    }
+                    window.close();
+
+                },
+                error: function (e) {
+
+                    //$("#result").text(e.responseText);
+                    document.body.innerHTML="ERROR : Posiblemente devido al tipo de archivo: "+e;
+                    $("#btnSubmit").prop("disabled", false);
+
+                }
+            });
+    });
+});
+   
+
+</script>
