@@ -12,7 +12,13 @@ shop.get('/404',shopController.noFound404);
 shop.get('/products/:categoryName',CategoryController.getCategory,ProductController.getProducts,shopController.createCategoryProduct);
 shop.get('/product/:idProduct',CategoryController.getCategory,ProductController.getProducts,shopController.createViewProduct);
 shop.get('/products',CategoryController.getCategory,ProductController.getProducts,shopController.createAllProducts);
+shop.get('/cart',CategoryController.getCategory,ProductController.getProducts,shopController.createPageCart);
+shop.get('/empty-cart',CategoryController.getCategory,ProductController.getProducts,shopController.emptyCart);
 shop.get('/add-to-cart/:idProduct',CategoryController.getCategory,ProductController.getProducts,shopController.addToCart);
+shop.get('/remove-from-cart/:idProduct',CategoryController.getCategory,ProductController.getProducts,shopController.removeProductCart);
+shop.get('/delete-product-cart-complete/:idProduct',CategoryController.getCategory,ProductController.getProducts,shopController.deleteProductComplete);
+
+
 shop.get('/',CategoryController.getCategory,ProductController.getProducts,shopController.createHome);
  
 

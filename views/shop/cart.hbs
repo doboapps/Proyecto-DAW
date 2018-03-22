@@ -1,0 +1,73 @@
+ <br>
+ <br>
+ <br>
+ <br>
+ hola?
+ <div id="">
+            <h2>Cart</h2>
+            <ul id="ul-card-page" class="cd-cart-items">
+                <span>
+                 {{#each cart}}
+                <li id="li{{this._id}}">
+                    <span class="cd-qty"><span id="unit-cart{{this._id}}">{{this.__v}}</span>x</span> {{this.name}}
+                    <p class="remove-one-product" id="remove-product{{this._id}}">
+                        <a class="text-danger" href="#0">-</a>
+                    </p>
+                    <div class="cd-price">{{this.price}}€</div>
+                    <a href="#0" id="remove-cart{{this._id}}" class="">Remove</a>
+                </li>
+                {{/each}}
+                
+
+            </ul>
+            <!-- cd-cart-items -->
+
+            <div class="cd-cart-total">                
+                <p>
+                Total <span id="total-card">{{totalPrice}}€</span>
+                </p>
+            </div>
+            <!-- cd-cart-total -->
+             <p id="empty-cart" >
+                <a class="text-danger" href="#0">Vaciar Carro</a>
+            </p>
+            <a href="#0" class="checkout-btn">Realizar Compra</a>
+
+ 
+        </div>
+        <!-- cd-cart -->
+
+
+        <script>
+
+                $( document ).ready(function() {
+                    
+                     
+
+                    $('#empty-cart').click(function(){
+                        emptyCartAjax();
+                        location.reload();
+
+                    });
+                    
+                    $('.remove-one-product').click(function(){
+
+                        let idProduct=this.id.substr(14)
+                     
+                        $.ajax({
+                            url:'/{{lang}}/remove-from-cart/'+idProduct ,
+                            type: "get",
+                            success: function(res) {
+                                console.log("res")
+                                location.reload();
+                            },
+                            error: function(res) {
+                                console.log("Error."+res);
+                            }
+                        });
+                
+                    
+                    });
+                });
+
+        </script>

@@ -64,13 +64,13 @@
 
         <div id="cd-cart">
             <h2>Cart</h2>
-            <ul class="cd-cart-items">
+            <ul id="ul-card" class="cd-cart-items">
                 <span>
                  {{#each cart}}
-                <li>
-                    <span class="cd-qty">{{this.__v}}x</span> {{this.name}}
+                <li id="li{{this._id}}">
+                    <span class="cd-qty"><span id="unit{{this._id}}">{{this.__v}}</span>x</span> {{this.name}}
                     <div class="cd-price">{{this.price}}€</div>
-                    <a href="#0" class="cd-item-remove cd-img-replace">Remove</a>
+                    <a href="#0" id="remove{{this._id}}" class="cd-item-remove cd-img-replace">Remove</a>
                 </li>
                 {{/each}}
                 
@@ -78,20 +78,18 @@
             </ul>
             <!-- cd-cart-items -->
 
-            <div class="cd-cart-total">
-                
-                <p>Total 
-                    
-                    </span>
+            <div class="cd-cart-total">                
+                <p>
+                Total <span id="total">{{totalPrice}}€</span>
                 </p>
             </div>
             <!-- cd-cart-total -->
-
-            <a href="#0" class="checkout-btn">Checkout</a>
-
-            <p class="cd-go-to-cart">
-                <a href="#0">Go to cart page</a>
+             <p id="empty-cart-menu" >
+                <a class="text-danger" href="#0">Vaciar Carro</a>
             </p>
+            <a href="{{path}}{{lang}}/cart" class="checkout-btn">Go to cart page</a>
+
+ 
         </div>
         <!-- cd-cart -->
 
@@ -100,8 +98,53 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
         <script src="{{path}}js/main.js"></script>
+        
         <script>
            $("#option-{{lang}}").attr("selected",true);
+
+
+ 
+           $('.cd-item-remove').click(function(){
+               let idProduct=this.id.substr(6)
+
+               $.ajax({
+                    url:'/{{lang}}/delete-product-cart-complete/'+idProduct ,                    
+                    type: "get",
+                    success: function(res) {
+                        $('#li'+idProduct).remove();
+                        $('#total').html(res.priceTotal+"€")
+                    },
+                    error: function(res) {
+                        console.log("Error."+res);
+                    }
+                });
+
+
+                
+           });
+
+
+           $('#empty-cart-menu').click(function(){
+               emptyCartAjax();
+           });
+
+           function emptyCartAjax(){
+               $.ajax({
+                    url:'/{{lang}}/empty-cart',
+                    type: "get",
+                    success: function(res) {
+                        $('#ul-card').remove();
+                        $('#total').html("0€");
+                       console.log(res);
+
+                    },
+                    error: function(res) {
+                        console.log("Error."+res);
+                    }
+                });
+
+           }
+
         </script>
     </body>
 
