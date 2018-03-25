@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Proyecto DAW de Tienda Online",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/doboapps/proyecto-daw.git"
