@@ -16,6 +16,7 @@ function isAuthGeneral( req,res,next){//acceso usuario de la bbdd a la api
 
     services.decodeToken(token)
         .then(response=>{
+            
             req.user=response;
             next();
         })

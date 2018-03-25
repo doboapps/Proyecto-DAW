@@ -1,14 +1,14 @@
-'use strict'
+// 'use strict'
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
 
 
-const AdminSchema = Schema({
+// const AdminSchema = Schema({
 
-    UserName:String,
-    password:String
+//     UserName:String,
+//     password:String
     
-});
+// });
 
-module.exports=mongoose.model('Admin', AdminSchema);
+// module.exports=mongoose.model('Admin', AdminSchema);

@@ -7,7 +7,7 @@ function formToJson(formArray) {//serialize data function
       returnArray[formArray[i]['id']] = formArray[i]['value'];
     }
     return returnArray;
-  }
+}
   
   function sendAjaxHttp(xmlhttp,method,bearer,url,objectJson){
       
@@ -21,8 +21,8 @@ function formToJson(formArray) {//serialize data function
               xmlhttp.send(JSON.stringify(objectJson));
           }       
   }
-  function logOut(){
+  function logOut(returnLink){
       localStorage.setItem('message',"");
-      location.href='/logout';
+      location.href='/logout/'+returnLink;
   }
   

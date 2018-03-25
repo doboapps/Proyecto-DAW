@@ -1,8 +1,8 @@
 'use strict'
 
 function es(req,res,next){
-    req.lang ="es";
-    req.langWords ={
+    req.session.lang ="es";
+    req.session.langWords ={
         home:"inicio",
         about:"acerda de",
         products:"productos",
@@ -14,8 +14,8 @@ function es(req,res,next){
 }
 
 function en(req,res,next){
-    req.lang ="en";
-    req.langWords ={
+    req.session.lang ="en";
+    req.session.langWords ={
         home:"home",
         about:"about",
         products:"products",

@@ -20,6 +20,7 @@
     "colors": "^1.2.1",
     "connect-mongo": "^2.0.1",
     "cookie-parser": "^1.4.3",
+    "dateformat": "^3.0.3",
     "express": "^4.16.2",
     "express-form-data": "^2.0.1",
     "express-handlebars": "^3.0.0",
@@ -39,6 +40,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
+    "mongoose-enumvalues": "0.0.3",
     "node-bourbon": "^4.2.8"
   }
 }

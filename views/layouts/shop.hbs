@@ -49,7 +49,27 @@
                 <li>
                     <a class="{{markContact}}" href="#0">{{langWords.contact}}</a>
                 </li>
+                {{#unless sessionToken}}        
                 <li>
+                    <a class="show-login"  href="#">Login</a>
+                </li>
+                <li>
+                    <a id="register" class=""  href="{{path}}{{lang}}/register">Register</a>
+                </li>
+                {{else}}
+                <li>
+                    <a id="logout" onclick="logOut('{{lang}}')" href="#">{{dataUser.name}} Logout</a>
+                </li>                
+                {{/unless}}
+                
+                
+                
+                
+                
+                <li>
+
+            
+
                     <select id="language-select" class="form-control">
                         <option id="option-es" value="/es{{url}}">es</option>
                         <option id="option-en" value="/en{{url}}">en</option>                
@@ -91,61 +111,91 @@
 
  
         </div>
-        <!-- cd-cart -->
+        <!-- cd-loging -->
+
+        
+   
+        <div id="login-div" style="" class="bg-dark"><br>
+            <a href="/admin/home" class="navbar-brand w-25"><img class="col-sm-3 col-md-4 " src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png" alt="logo"></a>
+            <div style="color:tomato">{{{sessionToken}}}
 
 
+
+            </div>    
+            <form class="col-md-4 offset-md-4 bg-light" id="login" method="post" onsubmit="return sendForm();"><br>
+            
+            <div class="form-group" >
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Tu email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <label id="message" class="text-danger" for="exampleInputPassword1"></label>
+            <br><button type="submit" name="submit" class="btn btn-primary">Enviar</button><br><br>
+            </form>
+        </div>
+
+        
+
+ 
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-        <script src="{{path}}js/main.js"></script>
-        
+        crossorigin="anonymous"></script>
+        <script src="{{path}}js/main.js"></script>     
+        <script src="{{path}}js/global.js"></script>
         <script>
-           $("#option-{{lang}}").attr("selected",true);
+
+            let lang ='{{lang}}';
+            $("#option-{{lang}}").attr("selected",true);
+
+
+            $('.show-login').click(function(){
+                if ($('#login-div').css('display') == 'none' )
+                    $('#login-div').css('display','inherit');
+                else
+                    $('#login-div').css('display','none');
+            });
+
+
+
+            $('#message').append(localStorage.getItem("message")+"<br>");
+            localStorage.setItem("message","")                       
+                    
+                    function sendForm(){
+
+                    var xmlhttp = new XMLHttpRequest();
+                        const formLogin = document.querySelector("#login")
+                        formData=formToJson(formLogin);
+                        //console.log("data",formData);                                              
+
+                        sendAjaxHttp(xmlhttp,"POST",`Bearer {{{sessionToken}}}`,'../../../login',formData);
+                        
+                        xmlhttp.onreadystatechange=function(){
+                            if(xmlhttp.readyState==4){
+                                    var resp = xmlhttp.responseText;
+                                    var respJSON = JSON.parse(resp);
+                            
+                            if(respJSON.login){
+                                location.reload();                      
+                            }else{
+                                console.log("login-admin",respJSON); 
+                                $("#message").text("Usuario o contraseña incorrectos.");
+                                }                     
+                                     
+                            }
+                        }
+
+                        return false;
+                    }
+
 
 
  
-           $('.cd-item-remove').click(function(){
-               let idProduct=this.id.substr(6)
-
-               $.ajax({
-                    url:'/{{lang}}/delete-product-cart-complete/'+idProduct ,                    
-                    type: "get",
-                    success: function(res) {
-                        $('#li'+idProduct).remove();
-                        $('#total').html(res.priceTotal+"€")
-                    },
-                    error: function(res) {
-                        console.log("Error."+res);
-                    }
-                });
-
-
-                
-           });
-
-
-           $('#empty-cart-menu').click(function(){
-               emptyCartAjax();
-           });
-
-           function emptyCartAjax(){
-               $.ajax({
-                    url:'/{{lang}}/empty-cart',
-                    type: "get",
-                    success: function(res) {
-                        $('#ul-card').remove();
-                        $('#total').html("0€");
-                       console.log(res);
-
-                    },
-                    error: function(res) {
-                        console.log("Error."+res);
-                    }
-                });
-
-           }
-
         </script>
-    </body>
 
+             
+        
+    </body>
 </html>

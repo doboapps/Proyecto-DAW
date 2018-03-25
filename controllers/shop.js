@@ -3,9 +3,9 @@
     function getDataLanguage(req){
 
          return req.categories.map((elem)=>{
-                    if(req.lang=="es")
+                    if(req.session.lang=="es")
                     return {name:elem.name, _id:elem._id};
-                    if(req.lang=="en")
+                    if(req.session.lang=="en")
                     return {name:elem.nameEng, _id:elem._id};
         })
     }
@@ -75,12 +75,14 @@
                 }
             }
         }
-        let cartString=' "first": false';
+        let cartString='"first":false';
         for (const key in cartCount) {//array to json for req.session
-            cartString+=',"'+key+'": "'+cartCount[key]+'"';
+            cartString+=',"'+key+'":"'+cartCount[key]+'"';
         }
-        var cartFinal =` {${cartString}}`;
+        var cartFinal =`{${cartString}}`;
+
         req.session.cartMarket=JSON.parse(cartFinal);
+        
 
         return req.session.cartMarket;
      }
@@ -107,44 +109,56 @@
     }
 
     function emptyCart(req,res){        
-        req.session.totalPrice=0;
-        req.session.cart="";
+        req.session.totalPrice=0;        
         req.session.cartMarket={}
         res.send({emptyCart:"ok"});   
  
     }
+
+    function getNameProductAndUnid(cart,req){
+        
+        let cartString="";
+         cart.map((elem)=>{
+            cartString +=`${elem.__v} uds ${elem.name} / `;
+            })
+            
+        req.session.cartProductAndUnid = cartString;
+    }
     
 
     function returnData(req,productsCategory=0,categoryName=0){
-        
         let en,es;
-  
+        req.session.initSession=true;
         let LangCategories =getDataLanguage(req);
-        //console.log("lista carrito-->",createCart(req))
-        if(req.lang=="es"){es=true;en=false};
-        if(req.lang=="en"){es=false;en=true};
+        let Cart =createCart(req);
+        getNameProductAndUnid(Cart,req);
+        
+
+        if(req.session.lang=="es"){es=true;en=false};
+        if(req.session.lang=="en"){es=false;en=true};
         //console.log("carrito ",req.session.cartMarket)
         const data ={   layout:'shop.hbs',
                         url:req.url,
                         'en':en,
                         'es':es,
                         path:"../../",
-                        lang:req.lang,
-                        langWords:req.langWords,
+                        lang:req.session.lang,
+                        langWords:req.session.langWords,
                         actualCategory:categoryName,
                         products:productsCategory,
-                        cart:createCart(req),
+                        cart:Cart,
+                        cartProductAndUnid :req.session.cartProductAndUnid,
+                        dataUser:req.session.dataUser,
+                        sessionToken:req.session.identificator,
                         totalPrice:req.session.totalPrice,
                         categories:LangCategories}
                         
-                        return data;
-      
+                        return data;      
     }
 
 
-
     function createHome(req,res){
-        //console.log("idioma",req.langWords)
+        //console.log("idioma",req.session.langWords)
         let data=returnData(req);
         data['markHome']='current';
         res.render('shop/index',data)
@@ -162,6 +176,7 @@
         res.render('shop/products',data);  
     }
 
+
     function createCategoryProduct(req,res){
             const categoryName =req.params.categoryName.toLowerCase();
             
@@ -169,12 +184,10 @@
                 return (categ.name == categoryName) || (categ.nameEng == categoryName);
             });
             
-            if(typeof category != 'undefined'){
-                
+            if(typeof category != 'undefined'){                
                 var productsCategory = req.products.filter((elem)=>{ 
                     return elem.category.toString() == category._id.toString();
-                });
-                                
+                });                                
                 res.render('shop/products',returnData(req,productsCategory,categoryName));             
             }else{
                 res.writeHead(302, {
@@ -182,7 +195,6 @@
                 res.end();
             }
     }
-
 
 
 
@@ -196,20 +208,41 @@
             res.writeHead(302, {
                 'Location': '../../404' });
             res.end();
-
     }else{         
             res.render('shop/product',returnData(req,product));   
     }
 }
 
 
-function createPageCart(req,res){    
-
+function createPageCart(req,res){ 
     res.render('shop/cart',returnData(req))
-
 }
+
+function createPagePayment(req,res){ 
+    res.render('shop/payment',returnData(req))
+}
+
+function createPageRegister(req,res){  
+    res.render('shop/register',returnData(req))
+}
+
+function createPageWelcome(req,res){   
+    res.render('shop/welcome',returnData(req))
+}
+
+function createPagePayment(req,res){ 
+    res.render('shop/payment',returnData(req))
+}
+
+function createPagePaymentOk(req,res){ 
+    res.render('shop/payment-ok',returnData(req))
+}
+
+
 
 module.exports = {  createHome,noFound404,removeProductCart,
                     createAllProducts,createCategoryProduct,
                     createViewProduct,addToCart,emptyCart,
-                    deleteProductComplete,createPageCart}
+                    deleteProductComplete,createPageCart,
+                    createPagePayment,createPageRegister,
+                    createPageWelcome,createPagePaymentOk}

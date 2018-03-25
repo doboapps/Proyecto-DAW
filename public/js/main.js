@@ -6,8 +6,6 @@ jQuery(document).ready(function($){
 		window.location.href=selectedOption.val() 
 	});
 
-
-
 	//if you change this breakpoint in the style.css file (or _layout.scss if you use SASS), don't forget to update this value as well
 	var $L = 1200,
 		$menu_navigation = $('#main-nav'),
@@ -62,6 +60,52 @@ jQuery(document).ready(function($){
 		}
 
 	});
+
+
+
+// remote product cart
+$('.cd-item-remove').click(function(){
+	var idProduct=this.id.substr(6)
+	
+	$.ajax({
+		
+		 url:'../../'+lang+'/delete-product-cart-complete/'+idProduct ,                    
+		 type: "get",
+		 success: function(res) {
+			 $('#li'+idProduct).remove();
+			 $('#total').html(res.priceTotal+"€")
+		 },
+		 error: function(res) {
+			 console.log("Error."+res);
+		 }
+	 });       
+	          
+});
+
+// empty card cart
+$('#empty-cart-menu').click(function(){
+	emptyCartAjax();
+});
+function emptyCartAjax(){
+	$.ajax({
+	     url:'../../'+lang+'/empty-cart',
+		 type: "get",
+		 success: function(res) {
+			 $('#ul-card').remove();
+			 $('#total').html("0€");
+			console.log(res);
+
+		 },
+		 error: function(res) {
+			 console.log("Error."+res);
+		 }
+	 });
+
+};
+
+
+
+
 });
 
 function toggle_panel_visibility ($lateral_panel, $background_layer, $body) {
@@ -89,3 +133,4 @@ function move_navigation( $navigation, $MQ) {
 		$navigation.insertAfter('header');
 	}
 }
+

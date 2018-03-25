@@ -1,7 +1,7 @@
 
 <div style="position: absolute; width: 100%; height: 100%;top: 0;" class="bg-dark"><br>
     <a href="/admin/home" class="navbar-brand w-25"><img class="col-sm-3 col-md-4 " src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png" alt="logo"></a>
-    <div style="color:tomato">{{{sessionToken}}}</div>    
+    {{!-- <div style="color:tomato">{{{sessionToken}}}</div>     --}}
     <form class="col-md-4 offset-md-4 bg-light" id="login" method="post" onsubmit="return sendForm();"><br>
     
     <div class="form-group" >
@@ -19,10 +19,9 @@
 
 
 
-
-
 <script type="text/javascript">
 
+        
        $('#message').append(localStorage.getItem("message")+"<br>");
        localStorage.setItem("message","")                       
         
@@ -46,8 +45,6 @@
             }
 
             return false;
-        }
-
-        
+        }    
 
 </script> 

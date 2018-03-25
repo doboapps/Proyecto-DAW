@@ -5,17 +5,37 @@ const register = express();
 const userCtrl = require('../controllers/user');
 
 register.use('/login',userCtrl.signIn,function(req,res){
-    //req.session.identificator=req.tokenUser;
-    console.log("token register-users",req.session.identificator);
 
-    res.status(200).send({ message: 'LogIn OK' })
+    res.status(200).send({ login: true })
    });
+   
   
-register.use('/logout',function(req,res){
-    req.session.identificator=0;
+register.get('/logout/:returnLink',function(req,res){
+    let root="";
+    if(req.params.returnLink=="admin")
+    root='/admin/access';
+    else
+    root= "/"+req.params.returnLink;    
+
+    // req.session.identificator=0;
+    // req.session.userName="";
+
+    req.session.destroy();
+    
     res.writeHead(302, {
-      'Location': '/admin/access' });
+      'Location': root});
     res.end();
 });
+
+
+  // Registro de usuarios
+  register.post('/register',userCtrl.signUp,userCtrl.signIn, function (req,res){
+
+    console.log("body",req.body);
+
+    res.send({add:true});   
  
+   });
+
+
 module.exports = register

@@ -1,1 +1,92 @@
-home de administracion 
+
+
+{{#each orders}} 
+
+<div class="col-md-6 container">
+
+<table class="table">
+  <thead>
+    <tr class="table-active">
+      <th width="25%"  scope="col">
+        <select style="font-weight:bold"  class="custom-select mb-4 mr-sm-4 mb-sm-0" _id="{{_id}}" id="select{{_id}}">
+            <option id="received{{_id}}" class="text-warning" value="received">Recibido</option>
+            <option id="pending{{_id}}" class="text-danger"  value="pending">Pendiente</option>
+            <option id="sent{{_id}}" class="text-success" value="sent">Enviado</option>
+        </select> 
+        <script>
+        $("#{{status}}{{_id}}").attr("selected",true); 
+        $("#select{{_id}}").addClass($("#{{status}}{{_id}}").attr('class')) 
+        </script>      
+    </th>
+    <th width="75%" class="text-right" scope="col">Fecha: {{this.Date}}</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="col">Usuario</th>
+      <th scope="col">{{this.userEmail}}</th>
+      
+    </tr>
+    <tr>
+      <th scope="row">Datos:</th>
+      <td  colspan="1">{{this.name}} {{this.surnames}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Dirección</th>
+      <td>{{this.city}} ({{this.province}})</td>
+    </tr>
+    <tr>
+      <td  colspan="2">{{this.address}}, C.P {{this.zip}}</td>
+    
+    <tr>
+      <th scope="row">Instrucciónes</th>
+      <td colspan="2">{{this.intrucciones}}</td>
+      
+    </tr>
+    <tr>
+      <th scope="row">Pedido</th>
+      <td>{{this.requestedProducts}}</td>
+      
+    </tr>
+    <tr>
+      <th scope="row">Total</th>
+      <td>{{this.total}}</td>
+    </tr>  
+  </tbody>
+</table>
+
+</div><br>
+{{/each}}
+
+<script>
+  $('select').on('change', function() {
+  
+  let idOrder =$(this).attr("_id");
+  let value =this.value;
+  let formData={status:value};
+
+
+const xmlhttpProduct = new XMLHttpRequest();
+
+       sendAjaxHttp(xmlhttpProduct,"PUT",`Bearer {{{sessionToken}}}`,'/ddbb/update-status-order/'+idOrder,formData); 
+
+
+        xmlhttpProduct.onreadystatechange=function(){
+                if(xmlhttpProduct.readyState==4){ 
+                    var resp = xmlhttpProduct.responseText;
+                    console.log("llego",resp);  
+
+                    var respJSON = JSON.parse(resp);
+    
+                    console.log(respJSON); 
+                    location.reload();                                             
+ 
+                }
+            }
+
+
+  
+})
+</script>
+

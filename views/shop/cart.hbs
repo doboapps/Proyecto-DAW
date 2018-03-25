@@ -2,7 +2,7 @@
  <br>
  <br>
  <br>
- hola?
+{{cartProductAndUnid}}
  <div id="">
             <h2>Cart</h2>
             <ul id="ul-card-page" class="cd-cart-items">
@@ -31,7 +31,12 @@
              <p id="empty-cart" >
                 <a class="text-danger" href="#0">Vaciar Carro</a>
             </p>
-            <a href="#0" class="checkout-btn">Realizar Compra</a>
+            {{#if sessionToken}}        
+            <a href="{{path}}{{lang}}/payment" class="checkout-btn">Realizar Compra</a>
+            {{else}}
+            <a href="#" class="checkout-btn show-login">Logear y Compra</a>
+            {{/if}} 
+            
 
  
         </div>
@@ -52,8 +57,7 @@
                     
                     $('.remove-one-product').click(function(){
 
-                        let idProduct=this.id.substr(14)
-                     
+                        let idProduct=this.id.substr(14)                     
                         $.ajax({
                             url:'/{{lang}}/remove-from-cart/'+idProduct ,
                             type: "get",

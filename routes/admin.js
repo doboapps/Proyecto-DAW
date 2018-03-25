@@ -7,10 +7,11 @@
   const UploadController =require('../controllers/upload');
   const CategoryController =require('../controllers/category');
   const ProductController =require('../controllers/product');
+  const OrderController =require('../controllers/order');
 
 
   // home admin
-  admin.use('/home',auth.isAuthInternal,adminController.createHome);
+  admin.use('/home',auth.isAuthInternal,ProductController.getProducts,OrderController.getOrdes,adminController.createHome);
   //crear categoria
   admin.use('/category/create',auth.isAuthInternal,CategoryController.getCategory,adminController.createCategory);
   //crear productos
@@ -27,6 +28,7 @@
    admin.use('/access',auth.isAuthUserAdmin,adminController.createLoginAdmin);
   // Redirect to access
    admin.use('/',adminController.redirectToAccess);
+
 
 
 module.exports = admin;

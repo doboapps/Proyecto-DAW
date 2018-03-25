@@ -2,8 +2,15 @@
 
 
 function createHome (req,res){
-        res.render('admin/index',{layout: 'admin.hbs',categories:req.categories})
+
+        res.render('admin/index',{layout: 'admin.hbs',
+                                  categories:req.categories,
+                                  orders:req.orders,
+                                  sessionToken:req.session.identificator})
 }
+
+
+
 
 function createCategory (req,res){
         res.render('admin/category/index',{ layout: 'admin.hbs',
@@ -61,6 +68,9 @@ function createProduct (req,res){
             res.end();
           }     
    }
+
+
+   
 
 module.exports = {  createHome,createCategory,
                     createProduct,createViewProduct,
