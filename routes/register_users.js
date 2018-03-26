@@ -4,8 +4,9 @@ const express = require('express');
 const register = express();
 const userCtrl = require('../controllers/user');
 
-register.use('/login',userCtrl.signIn,function(req,res){
 
+
+register.use('/login',userCtrl.signIn,function(req,res){
     res.status(200).send({ login: true })
    });
    
@@ -16,12 +17,8 @@ register.get('/logout/:returnLink',function(req,res){
     root='/admin/access';
     else
     root= "/"+req.params.returnLink;    
-
-    // req.session.identificator=0;
-    // req.session.userName="";
-
-    req.session.destroy();
     
+    req.session.destroy();
     res.writeHead(302, {
       'Location': root});
     res.end();

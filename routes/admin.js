@@ -3,7 +3,6 @@
   const admin = express();
   const auth = require('../middlewares/authentication');
   const adminController =require('../controllers/admin');
-  //const userCtrl = require('../controllers/user');
   const UploadController =require('../controllers/upload');
   const CategoryController =require('../controllers/category');
   const ProductController =require('../controllers/product');

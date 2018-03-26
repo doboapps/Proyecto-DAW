@@ -43,7 +43,6 @@ UserSchema.pre('save',function(next){
 })
 
 
-
 UserSchema.methods.comparePassword = function (truePass,candidatePassword, cb) {
     //compara las contraseñas codificadas
     bcrypt.compare(candidatePassword, truePass, (err, isMatch) => {
@@ -51,6 +50,5 @@ UserSchema.methods.comparePassword = function (truePass,candidatePassword, cb) {
       cb(err, isMatch)
     });
   }
-
 
 module.exports=mongoose.model('Users', UserSchema);
