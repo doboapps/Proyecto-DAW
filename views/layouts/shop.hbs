@@ -6,22 +6,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" href="{{path}}images/statics/logo.ico">
+        <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet" type='text/css'>
         <link rel="stylesheet" href="{{path}}css/reset.css">
+        <link href="{{path}}css/ionicons.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
             crossorigin="anonymous">
         <link rel="stylesheet" href="{{path}}css/shop.css">
         <script src="{{path}}js/modernizr.js"></script>
 
         <title>Shop</title>
+        
 
     </head>
 
-    <body class="foo">
+    <body>
+        <div id="background"></div>
         <header>
+            <div id="background-header">
+            </div>
             <div id="logo">
-                <img src="{{path}}images/cd-logo.svg" alt="Homepage">
+                <a href="{{path}}{{lang}}">
+                <img src="{{path}}images/statics/lachacina.png" alt="lachacina">
+                </a>
             </div>
 
             <div id="cd-hamburger-menu">
@@ -38,27 +45,27 @@
                     <a class="{{markHome}}" href="{{path}}{{lang}}">{{langWords.home}}</a>
                 </li>
                 <li>
-                    <a class="{{markAbout}}" href="#0">{{langWords.about}}</a>
+                    <a class="{{markAbout}}" href="{{path}}{{lang}}/about">{{langWords.about}}</a>
                 </li>
                 <li>
                     <a class="{{markProducts}}" href="{{path}}{{lang}}/products">{{langWords.products}}</a>
                 </li>
                 <li>
-                    <a class="{{markGalery}}" href="#0">{{langWords.gallery}}</a>
-                </li>
-                <li>
-                    <a class="{{markContact}}" href="#0">{{langWords.contact}}</a>
+                    <a class="{{markContact}}" href="{{path}}{{lang}}/contact">{{langWords.contact}}</a>
                 </li>
                 {{#unless sessionToken}}        
                 <li>
-                    <a class="show-login"  href="#">Login</a>
+                    <a id="register" class="{{markRegister}}"  href="{{path}}{{lang}}/register">{{langWords.register}}</a>
                 </li>
+
                 <li>
-                    <a id="register" class=""  href="{{path}}{{lang}}/register">Register</a>
+                    <a  class="show-login"  data-toggle="modal" data-target="#LoginModal" data-whatever="@getbootstrap">Login <i class="ion-log-in"></i></a>
+                    {{!-- <a class="show-login"  href="#">Login</a> --}}
                 </li>
+                
                 {{else}}
                 <li>
-                    <a id="logout" onclick="logOut('{{lang}}')" href="#">{{dataUser.name}} Logout</a>
+                    <a id="logout" title="exit" onclick="logOut('{{lang}}')" href="#">{{dataUser.name}} <i class="ion-log-out"></i></a>
                 </li>                
                 {{/unless}}
                 
@@ -83,13 +90,13 @@
         <div id="cd-shadow-layer"></div>
 
         <div id="cd-cart">
-            <h2>Cart</h2>
+            <h2>{{langWords.cart}}</h2>
             <ul id="ul-card" class="cd-cart-items">
                 <span>
                  {{#each cart}}
                 <li id="li{{this._id}}">
                     <span class="cd-qty"><span id="unit{{this._id}}">{{this.__v}}</span>x</span> {{this.name}}
-                    <div class="cd-price">{{this.price}}€</div>
+                    <div class="cd-price">{{this.sumaTotal}}€</div>
                     <a href="#0" id="remove{{this._id}}" class="cd-item-remove cd-img-replace">Remove</a>
                 </li>
                 {{/each}}
@@ -104,40 +111,56 @@
                 </p>
             </div>
             <!-- cd-cart-total -->
-             <p id="empty-cart-menu" >
-                <a class="text-danger" href="#0">Vaciar Carro</a>
+             <p id="empty-cart-menu" title="{{langWords.emptyCart}}">
+                <a href="#0">               
+                    <img src="{{path}}images/statics/empty-cart.png" alt="empty-cart">
+            </a>
             </p>
-            <a href="{{path}}{{lang}}/cart" class="checkout-btn">Go to cart page</a>
+            <div class="text-center">
+            <a href="{{path}}{{lang}}/cart" class="checkout-btn btn-shop">{{langWords.see}}</a>
+            </div>
 
  
         </div>
         <!-- cd-loging -->
 
-        
-   
-        <div id="login-div" style="" class="bg-dark"><br>
-            <a href="/admin/home" class="navbar-brand w-25"><img class="col-sm-3 col-md-4 " src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png" alt="logo"></a>
-            <div style="color:tomato">{{{sessionToken}}}
 
 
 
-            </div>    
-            <form class="col-md-4 offset-md-4 bg-light" id="login" method="post" onsubmit="return sendForm();"><br>
-            
-            <div class="form-group" >
-                <label for="exampleInputEmail1">Email</label>
-                <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Tu email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-            </div>
+<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModallLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content form-login">
+      <div class="modal-header">
+        <h5 class="modal-title" id="LoginModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="login"  onsubmit="return sendForm();">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label" >Email</label>
+            <input type="email" class="form-control" name="email" id="email">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Password</label>
+            <input type="password" class="form-control"  name="password" id="password">
+          </div>
             <label id="message" class="text-danger" for="exampleInputPassword1"></label>
-            <br><button type="submit" name="submit" class="btn btn-primary">Enviar</button><br><br>
-            </form>
-        </div>
+            <div class="modal-footer">
+            <br><button type="submit" name="submit" class="btn-shop">{{langWords.send}}</button><br><br>
+            </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
-        
+
+        <footer>
+            ©copyright{{year}}
+        </footer>
 
  
 
@@ -150,13 +173,14 @@
             let lang ='{{lang}}';
             $("#option-{{lang}}").attr("selected",true);
 
-
+            /*
             $('.show-login').click(function(){
                 if ($('#login-div').css('display') == 'none' )
                     $('#login-div').css('display','inherit');
                 else
                     $('#login-div').css('display','none');
             });
+            */
 
 
 
@@ -166,7 +190,7 @@
                     function sendForm(){
 
                     var xmlhttp = new XMLHttpRequest();
-                        const formLogin = document.querySelector("#login")
+                        var formLogin = document.querySelector("#login")
                         formData=formToJson(formLogin);
                         //console.log("data",formData);                                              
 

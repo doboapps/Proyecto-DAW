@@ -46,7 +46,7 @@ function isAuthAdmin(req,res,next){//acceso administrador a la api
 }
 
 
-function isAuthInternal(req,res,next){//acceso del usuario a la administración
+function isAuthInternal(req,res,next){//acceso del usuario
     
     //console.log("authentication.js--->",req.session)
     if(req.session.identificator==undefined){

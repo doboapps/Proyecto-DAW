@@ -1,46 +1,39 @@
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 
 <form class="container-fluid col-md-6 offset-md-3 " id="formpayment" onsubmit="return sendFormPayment();">
-    <br><b>Datos de Personales:</b> 
-    <hr>
+    <h3>Datos de Personales</h3><br>
     <input type="hidden" id="userEmail" value="{{dataUser.email}}" placeholder="Nombre">
     <input type="hidden" id="requestedProducts" value="{{cartProductAndUnid}}" placeholder="Nombre">
     <input type="hidden" id="total" value="{{totalPrice}}" placeholder="Nombre">
 
 
     <div class="form-group">
-        <small class="form-text text-muted">Nombre:</small>
+        <small class="form-text text-muted">{{langWords.name}}:</small>
         <input type="text" class="form-control" id="name" placeholder="Nombre">
     </div>
     <div class="form-group">
-        <small class="form-text text-muted">Apellidos</small>
+        <small class="form-text text-muted">{{langWords.surnames}}:</small>
         <input type="text" class="form-control" id="surnames" placeholder="Apellidos">
     </div>
 
     <div class="form-group">
-        <small class="form-text text-muted">Dirección:</small>
+        <small class="form-text text-muted">{{langWords.address}}:</small>
         <input type="text" class="form-control" id="address" placeholder="Dirección">
     </div>
 
     <div class="form-group ">
-        <small class="form-text text-muted">Esfecificaciones de Dirección:</small>
+        <small class="form-text text-muted">{{langWords.addressSpecifications}}:</small>
         <input type="text" class="form-control" id="specifications" placeholder="Opcional">
     </div>
     <div class="form-inline form-group ">
         <div class="form-group col-md-6 pl-0">
-            <small class="form-text text-muted">Localidad:</small>
+            <small class="form-text text-muted">{{langWords.city}}:</small>
             <br>
             <input type="text" class="form-control col-sm-12" id="city" placeholder="Localidad">
         </div>
 
         <div class="form-group col-md-6 pr-0">
-            <small class="form-text text-muted">Provincia</small>
+            <small class="form-text text-muted">{{langWords.state}}</small>
             <br>
             <select id="province" class="custom-select col-sm-12" id="select-category">
                 <option value='alava'>Álava</option>
@@ -101,29 +94,29 @@
 
     <div class="form-inline form-group">
         <div class="form-group col-md-6 pl-0">
-            <small class="form-text text-muted">Código Postal:</small>
+            <small class="form-text text-muted">{{langWords.zip}}:</small>
             <br>
             <input type="text" class="form-control col-sm-12" id="zip" placeholder="Código Postal">
         </div>
 
         <div class="form-group col-md-6 pr-0">
-            <small class="form-text text-muted">País</small>
+            <small class="form-text text-muted">{{langWords.country}}</small>
             <br>
             <select id="contry" class="custom-select col-sm-12" id="select-category">
                 <option value="spain">España</option>
             </select>
         </div>
     </div><br>
-    <b>Datos de Pago:</b> 
-    <hr>
+    <h3>{{langWords.paymentInformation}}:</h3><br>
+ 
     <div class="form-group">
-        <small class="form-text text-muted">Nº de tarjeta:</label>
+        <small class="form-text text-muted">{{langWords.numberCard}}:</label>
             <input type="text" class="form-control" id="card-credit" placeholder="Dirección">
     </div>
 
     <div class="form-inline form-group">
         <div class="form-group col-md-6 pl-0">
-            <label for="formGroupExampleInput ">Caducidad:</label>
+            <label for="formGroupExampleInput ">{{langWords.expiration}}:</label>
             <br>
             <input type="text" class="form-control col-sm-12" id="expiration" placeholder="Código Postal">
         </div>
@@ -133,22 +126,42 @@
             <input type="text" class="form-control col-sm-12" id="cvc" placeholder="Código Postal">
         </div>
     </div>
-    Resumen:
+    {{langWords.resume}}:
     <hr>
 
 
 
     <div class="form-group">
-        <label for="exampleTextarea">Notas o Intrucciones(Opcional)</label>
-        <textarea class="form-control" id="intrucciones" rows="3"></textarea>
+        <label for="exampleTextarea">{{langWords.instructions}}:</label>
+        <textarea class="form-control textarea" id="intrucciones" rows="3"></textarea>
     </div>
-
-    <button type="submit" class="btn btn-primary">Pagar</button>
+    <br>
+    <button href="#" type="submit" class="btn-shop">{{langWords.tobuy}}</button>
     <br>
 
 
 </form>
 <br>
+
+<!-- Modal -->
+<div class="modal fade" id="bought" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{langWords.purchaseOk}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       {{langWords.prucahseSuccessfully}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="ok-bought" class="btn-shop">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 
@@ -168,7 +181,10 @@
 
 
                 if (respJSON.status) {
+                    $('#bought').modal('show');
+                    $('#ok-bought').click(function(){
                     window.location.href = "/{{lang}}/payment-ok";
+                    })                
                 }
             }
         }

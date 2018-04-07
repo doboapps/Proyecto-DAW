@@ -1,6 +1,7 @@
 'use strict'
 
 const Category = require('../models/product').category;
+const Product = require('../models/product').product;
 
 //====================== GET ================================
 function getCategoryId(req,res){
@@ -48,7 +49,7 @@ function saveCategory(req,res){
                 if(err){
                     res.status(500).send("Error al guardar la category.");
                 }else{
-                    res.status(200).send(CategorySave);
+                    res.status(200).send({message:"Categoía creada correctamente."});
                     console.log("Categoría guardada correctamente.");
                 }                
             })                        
@@ -77,18 +78,23 @@ function updateCategory(req,res){
 
 //====================== DELETE ================================
 
+
+
+
+
+
 function deleteCategoryId(req,res){
   
     let categoryId = req.params.categoryId; 
-    Category.findById(categoryId,(err,theCategory)=>{
-        if(err) return  res.status(500).send({message:"error1 al borrar la  categoría."+err});
     
-        theCategory.remove((err)=>{
-            if(err) return res.status(500).send({message:"error2 al borrar la  categoría."+err});
-            res.status(200).send({message:"La categoría ha sido eliminada"});
+        Category.findById(categoryId,(err,theCategory)=>{
+            if(err) return  res.status(500).send({message:"error1 al borrar la  categoría."+err});
+        
+            theCategory.remove((err)=>{
+                if(err) return res.status(500).send({message:"error2 al borrar la  categoría."+err});
+                res.status(200).send({message:"La categoría ha sido eliminada"});
+            })
         })
-    })
-
 }
 
 

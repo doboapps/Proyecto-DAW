@@ -22,7 +22,6 @@
                     priceTotal+=cart[key]*elem.price;                
             })
            }
-           //console.log("pt",priceTotal)
         return priceTotal;
            
     }
@@ -31,14 +30,21 @@
     function createCart(req){
         
         let listCart=[];
+        
         for (const key in req.session.cartMarket) {
             
-            req.products.map((elem)=>{
+            req.products.forEach((elem)=>{
                 if(elem._id.toString() == key){
                     elem.__v = req.session.cartMarket[key];
-                    listCart.push(elem);
+                    let newElement = JSON.parse(JSON.stringify(elem))
+                    newElement.sumaTotal=newElement.__v * newElement.price ;
+                    console.log(newElement) 
+
+
+                    listCart.push(newElement);
                 }
-            })       
+            })      
+            //console.log(listCart) 
         }        
         return listCart;
     }
@@ -111,6 +117,7 @@
     function emptyCart(req,res){        
         req.session.totalPrice=0;        
         req.session.cartMarket={}
+        req.session.destroy(),
         res.send({emptyCart:"ok"});   
  
     }
@@ -128,15 +135,16 @@
 
     function returnData(req,productsCategory=0,categoryName=0){
         let en,es;
+        let year = (new Date()).getFullYear();
         req.session.initSession=true;
         let LangCategories =getDataLanguage(req);
         let Cart =createCart(req);
         getNameProductAndUnid(Cart,req);
-        
+
 
         if(req.session.lang=="es"){es=true;en=false};
         if(req.session.lang=="en"){es=false;en=true};
-        //console.log("carrito ",req.session.cartMarket)
+        //console.log("carrito ",Cart)
         const data ={   layout:'shop.hbs',
                         url:req.url,
                         'en':en,
@@ -151,7 +159,8 @@
                         dataUser:req.session.dataUser,
                         sessionToken:req.session.identificator,
                         totalPrice:req.session.totalPrice,
-                        categories:LangCategories}
+                        categories:LangCategories,
+                        year:year}
                         
                         return data;      
     }
@@ -222,20 +231,34 @@ function createPagePayment(req,res){
     res.render('shop/payment',returnData(req))
 }
 
-function createPageRegister(req,res){  
-    res.render('shop/register',returnData(req))
-}
+function createPageRegister(req,res){ 
+    let data =returnData(req,req.products);
+        data['markRegister']='current';
+    res.render('shop/register',data)
 
-function createPageWelcome(req,res){   
-    res.render('shop/welcome',returnData(req))
 }
 
 function createPagePayment(req,res){ 
     res.render('shop/payment',returnData(req))
 }
+function createAboutPage(req,res){ 
+    let data =returnData(req,req.products);
+        data['markAbout']='current';
+    res.render('shop/about',data)
+}
+
+function createContactPage(req,res){
+    let data =returnData(req,req.products);
+    data['markContact']='current';
+    res.render('shop/contact',data)
+}
 
 function createPagePaymentOk(req,res){ 
-    res.render('shop/payment-ok',returnData(req))
+    req.session.cartMarket={}
+    req.session.totalPrice=0;  
+    res.writeHead(302, {
+        'Location': '/' });
+      res.end();      
 }
 
 
@@ -245,4 +268,5 @@ module.exports = {  createHome,noFound404,removeProductCart,
                     createViewProduct,addToCart,emptyCart,
                     deleteProductComplete,createPageCart,
                     createPagePayment,createPageRegister,
-                    createPageWelcome,createPagePaymentOk}
+                    createPagePaymentOk,createAboutPage,
+                    createContactPage}

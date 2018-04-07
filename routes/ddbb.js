@@ -11,7 +11,7 @@ const auth = require('../middlewares/authentication');
 //------------------CATEGORY--------------------------------
 api.get('/category',auth.isAuthGeneral,auth.isAuthAdmin,CategoryController.getCategory);
 api.post('/create-category',auth.isAuthGeneral,auth.isAuthAdmin,CategoryController.saveCategory);
-api.delete('/delete-category/:categoryId',auth.isAuthGeneral,CategoryController.deleteCategoryId);
+api.delete('/delete-category/:categoryId',auth.isAuthGeneral,ProductController.searchCategoryInProduct,CategoryController.deleteCategoryId);
 api.put('/update-category/:categoryId',auth.isAuthGeneral,auth.isAuthAdmin,CategoryController.updateCategory);
 
 //------------------PRODUCT--------------------------------

@@ -16,6 +16,9 @@ html * {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+h3{
+	text-transform: capitalize;
+}
 
 *, *:after, *:before {
 	@include box-sizing(border-box);
@@ -28,6 +31,25 @@ body {
 	}
 	color: $main-text;
 	background-color: $background;
+	 
+
+	#background{
+		width: 300%;
+		height: 100%;
+		background-image: url(/images/statics/dehesa.jpg);
+		background-position: right;
+		background-size: 100%;
+		position: fixed;
+		top: 0;
+		opacity: 0.2;
+		z-index: -1;
+
+		@include MQ(M) {
+			width: 100%;
+		}
+
+	}
+	
 
 	&.overflow-hidden {
 		/* prevent 2 vertical scrollbars on ie and firefox when the cart is visible */ 
@@ -38,7 +60,17 @@ body {
 a {
 	color: $link;
 	text-decoration: none;
-}
+
+		&:hover{
+			color:$hover-text;
+			
+			img{ 
+				border-color: $hover-text !important;
+			}
+		}
+	}
+
+
 
 img {
 	max-width: 100%;
@@ -80,28 +112,58 @@ header {
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 50px;
-	width: 100%;
-	background: $header-bg;
+	height: 70px;
+	width: 102%;
+    margin-left: -1%;
+	//background: $header-bg;
 	text-align: center;
-	box-shadow: 0 2px 0 rgba(#000, .1);
+	//border-bottom: solid 2px white;
 
 	z-index: $header-zindex;
 
+	#background-header{
+		width: 100%;
+		position: absolute;
+		height: 100%;
+		background-image: url(/images/statics/texture.png);
+		background-color: #FFFEFB;
+		@include rotation(-2deg);
+		box-shadow: 0px 0px 16px 5px rgba(150, 150, 150, 0.6);
+		-o-box-shadow: 0px 0px 16px 5px rgba(150, 150, 150, 0.6);
+		-webkit-box-shadow: 0px 0px 16px 5px rgba(150, 150, 150, 0.6);
+		-moz-box-shadow: 0px 0px 16px 5px rgba(150, 150, 150, 0.6);
+		margin-top: -10px;
+		@include MQ(L) {
+			margin-top: -35px;
+		}
+	}
+
 	@include MQ(L) {
-		height: 80px;
+		height: 120px;
+		
 	}
 }
 
 #logo {
 	padding-top: 5px;
+	width: 40%;
+    margin-left: 30%;
 
 	/* delete this property if you don't want your logo to scale down on mobile devices */
 	@include transform(scale(.8)); 
 
+	img{
+		@include MQ(M) {
+			width: 150px;
+		}
+	}
+	
+
 	@include MQ(L) {
-		padding-top: 20px;
 		position: absolute;
+		width: 200px;
+		margin-left: inherit;
+		padding-top: 15px;
 		/* logo left margin on Dekstop */
 		left: 2.4em; 
 		top: 0;
@@ -111,12 +173,19 @@ header {
 
 #cd-hamburger-menu, #cd-cart-trigger {
 	position: absolute;
-	top: 0;
+	top: -10px;
 	height: 100%;
+
 
 	a {
 		width: 60px;
 		height: 100%;
+		top: -25px;
+    	right: 25px;
+		@include MQ(L) {
+		top: -15px;
+		}
+
 	}
 }
 
@@ -124,11 +193,12 @@ header {
 	left: 0;
 
 	a {
-		background: darken($header-bg, 5%) url('../images/cd-hamburger-menu.svg') no-repeat center center;
+		background: url('../images/statics/cd-hamburger-menu.svg') no-repeat center center;
 	}
 
 	@include MQ(L) {
 		display: none;
+		
 	}
 }
 
@@ -136,7 +206,7 @@ header {
 	right: 0;
 
 	a {
-		background: darken($header-bg, 5%) url('../images/cd-cart.svg') no-repeat center center;
+		background: url('../images/statics/cd-cart.svg') no-repeat center center;
 	}
 
 	@include MQ(L) {
@@ -147,7 +217,6 @@ header {
 			position: relative;
 			width: 100px;
 			border-left: none;
-			background-color: darken($header-bg, 5%);
 		}
 	}
 }
@@ -158,15 +227,13 @@ header {
 	top: 0;
 	height: 100%;
 	width: 260px;
-
+	background-color: #FFF;
+	background-image: url(/images/statics/texture.png);
 	/* header height */
-	padding-top: 50px; 
-
+	padding-top: 80px; 
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
-
 	box-shadow: 0 0 20px rgba(#000, .2);
-
 	z-index: $sidebar-zindex;
 
 	@include MQ(M) {
@@ -177,13 +244,13 @@ header {
 		width: 30%;
 
 		/* header height has changed */
-		padding-top: 80px; 
+		padding-top: 100px; 
 	}
 }
 
 #main-nav {
 	left: -100%;
-	background: #FFF;
+	
 
 	@include transition(left .3s);
 
@@ -203,6 +270,8 @@ header {
 
 		.current {
 			box-shadow: inset 3px 0 $link;
+			
+
 		}
 	}
 
@@ -224,34 +293,30 @@ header {
 
 		li {
 			display: inline-block;
-			margin-left: 1em;
 		}
 
 		ul a {
 			display: inline-block;
 			height: auto;
 			line-height: 1;
-			padding: 1em 1.4em;
+			padding: 0.6em 1em;
 			border-bottom: none;
-			color: rgba(#FFF, .8);
+			color: rgba(#000, .8);
 			text-decoration:none;
 			text-transform: capitalize;
-			@include border-radius;
+			@include borders(transparent,2px);
+			font-weight:bold;
 
 			&.current {
 				box-shadow: none;
-				background: $link;
-				color: #FFF;
-				
+				@include borders(black,2px);
 			}
-
 			.no-touch &:hover {
 				background: $link;
 				color: #FFF;
 			}
 			&:hover{
-				font-weight: bold;
-				background: $sub_header-bg;
+				@include borders(black,2px);
 			}
 		}
 	}
@@ -264,7 +329,7 @@ header {
 
 #cd-cart {
 	right: -100%;
-	background: #FFF;
+
 
 	@include transition(right .3s);
 
@@ -294,6 +359,7 @@ header {
 			&:last-child {
 				border-bottom: 1px solid $border;
 			}
+			
 		}
 	}
 
@@ -308,11 +374,12 @@ header {
 	.cd-item-remove {
 		position: absolute;
 		right: 1em;
-		@include center(y); // see mixin inside partials > _mixins.scss
+		top: 12px;
+		//@include center(y); // see mixin inside partials > _mixins.scss
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		background: url('../images/cd-remove-item.svg') no-repeat center center;
+		background: url('../images/statics/cd-remove-item.svg') no-repeat center center;
 
 		.no-touch &:hover {
 			background-color: $border;
@@ -320,11 +387,15 @@ header {
 	}
 
 	.cd-cart-total {
-		padding-top: 1em;
 		padding-bottom: 1em;
 
 		span {
 			float: right;
+		}
+
+		span{
+			font-size: 18px;
+			color: black;
 		}
 
 		&::after { /* clearfix */
@@ -335,17 +406,12 @@ header {
 	}
 
 	.checkout-btn {
-		display: block;
-		width: 100%;
-		height: 60px;
-		line-height: 60px;
-		background: $green;
-		color: #FFF;
-		text-align: center;
-
+		
+			
 		.no-touch &:hover {
 			background: lighten($green, 10%);
 		}
+		
 	}
 
 	.cd-go-to-cart {
@@ -363,7 +429,7 @@ header {
 		}
 
 		.cd-cart-items li {
-			padding: 1em 2em;
+			padding: 0.5em 2em;
 		}
 
 		.cd-item-remove {
@@ -381,7 +447,7 @@ xgallery
 main {
 	position: relative;
 	min-height: 100%;
-	background: $background;
+	//background: $background;
 	padding-top: 10px;
 
 	z-index: $main-zindex;
@@ -399,18 +465,29 @@ main {
 	li {
 		margin-bottom: 1.5em;
 
+		h5{
+			position: absolute;
+			text-transform: uppercase;
+			padding:20px;				
+		}
+
 		img {
 			width: 100%;
 			display: block;
-			@include border-radius;
+			@include borders(black,3px);
+			background: rgba(255, 255, 255, 0.43);
 		}
 	}
-
+ 
 	@include MQ(M) {
 		li {
 			@include column(.48); // see how this mixin works inside partials > _layout.scss
 			margin-bottom: 2em;
 			margin-right: 4%;
+
+			h5{
+				@include column(.48);
+			}
 
 			&:nth-child(2n) {
 				margin-right: 0;
@@ -423,6 +500,10 @@ main {
 			@include column(.31);
 			margin-bottom: 2.5em;
 			margin-right: 3.5%;
+
+			h5{
+				@include column(.31);
+			}
 
 			&:nth-child(2n) {
 				margin-right: 3.5%;
@@ -441,7 +522,7 @@ main {
 	width: 100%;
 	top: 0;
 	left: 0;
-	background: $shadow-layer-bg;
+	background: #b1e4bf57;
 	cursor: pointer;
 
 	z-index: $shadow-zindex;
@@ -471,7 +552,25 @@ xkeyframes
 }
 
 //------------------------------------------------------
+.pl-0{
+	padding-left: 0;
+  }
+  .pr-0{
+	padding-right: 0;
+  }
 
+  .btn-shop{
+		border: solid 2px black;
+		padding: 6px 15px !important;
+		text-transform: uppercase;
+		font-size: 18px;
+		background: transparent;
+		cursor: pointer;
+		&:hover{
+			color:$hover-text !important;
+			border-color: $hover-text;
+		}
+	}
 
 #category-nav{
 	width: 100%;
@@ -499,7 +598,7 @@ xkeyframes
 	}
 	
 	@include MQ(L) {
-		margin-top: 100px;
+		margin-top: 140px;
 	}
 
 }
@@ -510,32 +609,271 @@ xkeyframes
 }
 
 #language-select{
-	color: white;
-	background: $header-bg;
+	color: black;
+	font-weight: bold;
+	background: transparent;
 	border: none;
 	width: 65px;
+	&:hover{
+	cursor: pointer;		
+	}
 	&:focus{
 		box-shadow: none;
 	}
 	option{
-		background: $sub_header-bg;	
+		background: white;	
 	}
 
 }
 
-#login-div{
-    position:fixed;
-    z-index:1; 
-    width: 100%; 
-    height: 100%;
-	top: 0;
-	display: none;
 
-  }
+body{
+	background: $background;
+}
 
-  .pl-0{
-	padding-left: 0;
-  }
-  .pr-0{
-	padding-right: 0;
-  }
+//home
+.carousel-indicators {
+	bottom: 20px;
+    position: fixed;
+}
+
+
+.full-screen {
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+//About & Contact
+
+.about, .contact{
+	max-width: 1000px;
+		margin-top: 100px;
+	@include MQ(L) {
+		margin-top: $margin-top;
+	}
+	div{
+		float: left;
+		img{
+			border: solid 3px;
+			margin-bottom: 100px;
+		}
+	}
+}
+
+//form login
+.show-login{
+	cursor: pointer;	
+}
+.modal{
+	background: $background;
+
+}
+.modal-content{
+	margin-top: 80px;
+	background-image: url(/images/statics/texture.png);
+	background-color: #FFFEFB;
+		.modal-header{
+			border-bottom: 0;
+		}
+}
+.modal-content,.modal-content input{
+	border: 2px solid black;
+	border-radius: 0;
+
+}
+
+
+
+//Product
+
+#product{
+max-width: 1200px;
+
+div{
+		display: inline-block;	
+	}
+	#description{
+		h5{
+			padding: 15px;
+		}
+		padding: 100px 15px;
+		@include MQ(L) {
+			float: left;
+		}
+	}
+
+	#galery{
+		@include MQ(L) {
+			float: right;
+		}
+	}
+
+}
+//cart auxiliar
+
+#empty-cart-menu img{
+	width: 25px;
+    position: absolute;
+    margin-top: 16px;
+}
+
+//cart
+.cart-page{
+	
+	font-size: 18px;
+	max-width:900px;
+	margin-bottom: $margin-bottom;			
+
+	@include MQ(L) {
+		margin-top: $margin-top;
+		margin-bottom: 50px;			
+	}
+	
+
+	.cd-cart-items{
+		clear: both;
+		float: left;
+		border-bottom: 2px solid black;
+		margin-top: -50px;
+
+
+		li,li div{
+			float: left;
+		}
+		.li-flex{
+			align-self: center;
+			text-align: center;
+				
+		}
+		.unit-cart{
+			margin-bottom: 30px;
+		}
+		.cd-qty div{
+			margin-top: -15px;
+			margin-bottom: 15px;
+		}
+		.btn-plus-rest{
+			align-self: center;
+			border: solid 2px;
+			padding: 2px 6px;
+			text-decoration:none; 
+		}
+		.cd-price {
+			position: absolute;
+			z-index: -1;	
+
+		}
+		.price-unidad{
+			display: block;
+			margin-top: 10px;
+			font-size: 12px;
+			top: -28vh;				
+		}
+		
+	}
+
+	.cd-cart-total,.cd-cart-total p{
+		text-align: right;
+	}
+
+	.remove-cart-page{
+		font-size: 30px;
+		position: absolute;
+		right: 0;
+		top: -28vh;	
+		}
+		
+
+	@include MQ(M) {
+		.cd-cart-items{
+			display: flex;
+			margin-top: 25px;
+
+				.li-flex{
+				text-align: left				
+				}
+				.price-unidad{
+				display: inherit;
+				margin-top: inherit;				
+				}
+				.cd-price{
+				position: inherit;
+				}
+				.cd-qty div{
+					margin-top: 15px;
+					margin-bottom: inherit;	
+				}
+		}
+		.cd-cart-total,.cd-cart-total p{
+			text-align: inherit
+		}
+
+		.remove-cart-page{
+			top: -10px;	
+		}
+		
+	}
+
+
+	.cd-cart-total{
+		clear: both;
+		padding: 20px;
+	}
+
+
+}
+
+//Payment
+#formpayment,#formregistre,.cart-page{
+	margin-top: $margin-top;
+	margin-bottom: $margin-bottom;			
+
+		input, select, textarea {
+			border: 2px solid;
+			border-radius: 0;
+		}
+}
+
+//social
+#social{
+	@include rotation(-2deg);
+	background-image: url(/images/statics/texture.png);
+	background-color: #FFFEFB;
+    width: 102%;
+    height: 100px;
+    position: fixed;
+	bottom: -30px;
+	
+	div{
+		position: absolute;
+		right: 20px;
+		bottom: 40px;
+		@include rotation(2deg);
+		@include MQ(L) {
+		right: 70px;
+		bottom: 30px;
+		}
+
+		i{
+			font-size:20px;
+			margin-left: 15px;
+			@include MQ(L) {
+			font-size:25px;
+
+			}
+
+		}
+	}
+}
+
+
+//footer
+footer{
+	clear: both;
+	width: 100%;
+	text-align: center;
+	padding: 15px;
+}
+
+

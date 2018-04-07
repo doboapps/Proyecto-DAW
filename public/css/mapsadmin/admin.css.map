@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"../admin.css","sourcesContent":[]}
+{"version":3,"sources":["admin.scss"],"names":[],"mappings":"AAAA;EACI,aAAY,EACf;;AAED;EACI,kBAAiB,EAEpB","file":"../admin.css","sourcesContent":["nav img{\r\n    width: 130px;\r\n}\r\n\r\nnav li{\r\n    margin-left: 35px;\r\n\r\n}"]}

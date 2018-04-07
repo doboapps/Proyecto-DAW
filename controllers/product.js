@@ -31,6 +31,20 @@ function getProducts(req,res,next){
     })
 }
 
+
+function searchCategoryInProduct(req,res,next){    
+    let categoryId = req.params.categoryId; 
+
+   Product.findOne({category:categoryId},(err,theProduct)=>{
+
+           if(theProduct==null){
+               next();
+           }else{
+            res.status(200).send({message:"Debe eliminar antes, los productos pertenecientes a esta categoría"});
+           }
+     })    
+}
+
 //====================== POST ================================
 
 function saveProduct(req,res){
@@ -100,4 +114,4 @@ function deleteProductId(req,res){
 }
 
 
-module.exports = {getProductId,getProducts,saveProduct,updateProduct, deleteProductId}
+module.exports = {getProductId,getProducts,saveProduct,updateProduct, deleteProductId,searchCategoryInProduct}

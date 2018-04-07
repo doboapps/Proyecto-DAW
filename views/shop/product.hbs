@@ -12,45 +12,78 @@
         {{/each}}
     </ul>
 
-</nav>{{products}}
+</nav>
 
+{{#each products}}
+<div id="product" class="container col-sm-12">
+ 
+    <div id="galery" class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-10 offset-md-1">
+            <img src="{{../path}}{{picture1}}" alt="{{name}}">
+        </div>
+        {{#if picture2}}
 
-<button id="add-product">{{products.name}}Añadir a la cesta</button>
+        <div class="col-sm-12 col-md-10 offset-md-1">        
+            <img src="{{../path}}{{picture2}}" alt="{{name}}">
+        </div>
+        {{/if}}
+
+    </div>  
+       <div id="description" class="col-sm-12 col-md-6 text-center">
+        <h5>{{name}}</h5>
+        <h5>{{price}}€</h5>
+        <h5>{{pricekg}}€/Kg</h5>
+        <h5>{{description}}</h5>
+        <button id="add-product" class="btn-shop">{{../langWords.addCart}}</button>
+
+    </div>  
+
+    
+</div>
+
+{{/each}}
+<!-- Modal -->
+<div class="modal fade" id="add-ok" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{langWords.productAdd}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {{langWords.addOk}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-add-ok" class="btn-shop">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
-    $( document ).ready(function() {
-        
-
-        $("#add-product").click(function(){
-            
+    $( document ).ready(function() {      
+        $("#add-product").click(function(){            
             {{#each products}}
-           /* 
-            localStorage.removeItem('');
-           
-           if(localStorage.getItem('{{_id}}')==null)
-            localStorage.setItem("cart",{'{{_id}}':1}); 
-            else
-            localStorage.setItem("cart",{'{{_id}}':parseInt(localStorage.getItem('{{_id}}'))+1}); 
-            
-            console.log(localStorage.getItem("cart"));*/
-           $.ajax({
-                url:'/{{../lang}}/add-to-cart/{{_id}}' ,
-                type: "get",
-                success: function(res) {
-                    console.log(res);
-                    location.reload();
-                },
-                error: function(res) {
-                    console.log("No se ha podido obtener la información"+res);
-                }
-            });
-
+            $.ajax({
+                    url:'/{{../lang}}/add-to-cart/{{_id}}' ,
+                    type: "get",
+                    success: function(res) {
+                        console.log(res);
+                        $('#add-ok').modal('show');
+                    $('#btn-add-ok').click(function(){
+                        location.reload();
+                    }) 
+                        
+                    },
+                    error: function(res) {
+                        console.log("No se ha podido obtener la información"+res);
+                    }
+                });
             {{/each}}
          });
-    });
-
-
-
-    
+    });    
 </script>

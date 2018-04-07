@@ -1,5 +1,3 @@
-/* Configuración de express */
-
 'use strict'
 
 const express = require('express');
@@ -21,9 +19,7 @@ const config = require('./config');
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());//te convierte en json el cuerpo
 app.use(express.static('public'));
-
 app.use(cookieParser());
-//var MemoryStore =session.MemoryStore;
 app.use(session({
         name : 'app.sid',
         secret: "1234567890QWERTY",
@@ -35,8 +31,6 @@ app.use(session({
         }),
         saveUninitialized: true
 }));
-
-
 app.engine('.hbs',hbs({
   defaultLayout: 'shop',  
   extname:'.hbs'}));
@@ -49,7 +43,6 @@ app.use('/',registerUser);
 app.use('/admin',admin);
 app.use('/es/',language.es,shop);
 app.use('/en/',language.en,shop);
-
 app.use('/',redirect);
 
 

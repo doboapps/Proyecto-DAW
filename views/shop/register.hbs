@@ -1,12 +1,5 @@
-<br>
-<br>
-<br>
-<br>
-<br>
-
 <form class="container-fluid col-md-4 offset-md-4 " id="formregistre" onsubmit="return sendFormReg();">
-    <br>
-
+      <h3>{{langWords.register}}</h3><br>
    
     <div class="form-group">
         <small  class="form-text text-muted">Email:</small>
@@ -14,7 +7,7 @@
     </div>
     
     <div class="form-group">
-        <small  class="form-text text-muted">Nombre:</small>
+        <small  class="form-text text-muted">{{langWords.name}}:</small>
         <input type="text" class="form-control" id="namereg" placeholder="Nombre">
     </div>
 
@@ -24,16 +17,38 @@
     </div>
 
     <div class="form-group">
-        <small  class="form-text text-muted">Repetir Password:</small>
+        <small  class="form-text text-muted">{{langWords.repeat}} Password:</small>
         <input type="password" class="form-control" id="password2" placeholder="Password">
-    </div>
+    </div><br>
 
 
-        <button type="submit" class="btn btn-primary">Registrarse</button>
+        <button type="submit" class="btn-shop">{{langWords.register}}</button>
     <br>
 
 
 </form>
+
+
+<!-- Modal -->
+<div class="modal fade" id="registered" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{langWords.register}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{langWords.registerOk}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="ok-registered" class="btn-shop">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
@@ -41,6 +56,9 @@
      {{#if sessionToken}}
         window.location.href="/{{lang}}";  
       {{/if}}
+
+
+       
 
     function sendFormReg(){
 
@@ -56,10 +74,15 @@
 
                 if(respJSON.add){
                     console.log(respJSON);
-                    window.location.href="/{{lang}}/welcome";
+                    $('#registered').modal('show');
+                    $('#ok-registered').click(function(){
+                       window.location.href="/{{lang}}";
+                    })
                 }                        
             }            
         }
+
+       
 
        return false; 
     }

@@ -17,16 +17,17 @@
 
         {{#each products}}
         <li>
-            {{#if ../es}} {{name}}   {{/if}}
-            {{#if ../en}} {{nameEng}} {{/if}}
-
-
             <a href="/{{../lang}}/product/{{_id}}">
-            <img src="{{../path}}{{picture1}}" alt="Preview image">
+                <h5>
+                    {{#if ../es}} {{name}}   {{/if}}
+                    {{#if ../en}} {{nameEng}} {{/if}}
+                </h5>
+                
+                <img src="{{../path}}{{picture1}}" alt="Preview image">
             </a>
         </li>
         {{/each}}
-
+  
     </ul>
     <!-- cd-gallery-items -->
 </main>

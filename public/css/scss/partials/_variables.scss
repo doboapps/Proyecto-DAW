@@ -1,23 +1,26 @@
 // colors
 
-$main-text: #31353d; // main text
-$link: #435779; // anchor tags
-$background: #eeeff7; // background color
-$header-bg: #31353d;
+$main-text: black; // main text
+$link: black; // anchor tags
+$hover-text:#769b02;
+$background:#b1e4bf52; // background color
+$header-bg: #b7a87c;
 $sub_header-bg:#26292f;
 
 $border: #e0e6ef;
 $light-text: #a5aebc;
 $green: #7dcf85;
 
+$margin-top:170px;
+$margin-bottom:50px;
+
 $shadow-layer-bg: rgba(#435779, .6);
 
 // fonts 
 
-$primary-font: 'PT Sans', sans-serif;
+$primary-font: 'PT Mono', monospace;
 
 // z-index
-
 $header-zindex: 4;
 $sidebar-zindex: 3;
 $shadow-zindex: 2;

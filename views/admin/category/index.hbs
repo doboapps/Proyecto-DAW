@@ -4,7 +4,7 @@
         <br>
 
         <div class="form-group">
-            <h4>Agregar Categorías</h4>
+            <h4 class="text-primary">Agregar Categorías</h4>
             <small class="form-text text-muted text-left">
                 <br>Nombre de la categoría en
                 <b>español</b>.</small>
@@ -22,7 +22,7 @@
 
     <div class=" bg-light">
         <br>
-        <h4>Eliminar/Editar Categorías</h4>
+        <h4 class="text-primary">Eliminar/Editar Categorías</h4>
         <br>
 
         <div class="content text-right col-md-6 offset-md-3">
@@ -131,7 +131,12 @@
                     var resp = xmlhttp.responseText;
                     var respJSON = JSON.parse(resp);
                     console.log(respJSON);
-                    location.reload();
+                    bootbox.alert(respJSON.message, function(){ 
+                        
+                        location.reload();
+                    });
+
+                    
                 }
             }
         });

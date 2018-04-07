@@ -66,7 +66,6 @@ jQuery(document).ready(function($){
 // remote product cart
 $('.cd-item-remove').click(function(){
 	var idProduct=this.id.substr(6)
-	
 	$.ajax({
 		
 		 url:'../../'+lang+'/delete-product-cart-complete/'+idProduct ,                    

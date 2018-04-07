@@ -1,77 +1,107 @@
- <br>
- <br>
- <br>
- <br>
-{{cartProductAndUnid}}
- <div id="">
-            <h2>Cart</h2>
-            <ul id="ul-card-page" class="cd-cart-items">
-                <span>
-                 {{#each cart}}
-                <li id="li{{this._id}}">
-                    <span class="cd-qty"><span id="unit-cart{{this._id}}">{{this.__v}}</span>x</span> {{this.name}}
-                    <p class="remove-one-product" id="remove-product{{this._id}}">
-                        <a class="text-danger" href="#0">-</a>
-                    </p>
-                    <div class="cd-price">{{this.price}}€</div>
-                    <a href="#0" id="remove-cart{{this._id}}" class="">Remove</a>
-                </li>
-                {{/each}}
-                
 
-            </ul>
-            <!-- cd-cart-items -->
-
-            <div class="cd-cart-total">                
-                <p>
-                Total <span id="total-card">{{totalPrice}}€</span>
-                </p>
-            </div>
-            <!-- cd-cart-total -->
-             <p id="empty-cart" >
-                <a class="text-danger" href="#0">Vaciar Carro</a>
-            </p>
-            {{#if sessionToken}}        
-            <a href="{{path}}{{lang}}/payment" class="checkout-btn">Realizar Compra</a>
-            {{else}}
-            <a href="#" class="checkout-btn show-login">Logear y Compra</a>
-            {{/if}} 
+<div class="cart-page container col-sm-8 col-md-8">
+    <h2>Cart</h2><br>
+    {{#each cart}}
+    <ul class="cd-cart-items col-sm-12 col-md-12">
+        <li class="col-sm-2">
+            <img src="{{../path}}{{picture1}}" alt="{{name}}">
+        </li>
+        <li id="li{{this._id}}" class="col-sm-6 offset-sm-6 offset-md-0 col-md-10 li-flex">
             
-
- 
-        </div>
-        <!-- cd-cart -->
-
-
-        <script>
-
-                $( document ).ready(function() {
-                    
-                     
-
-                    $('#empty-cart').click(function(){
-                        emptyCartAjax();
-                        location.reload();
-
-                    });
-                    
-                    $('.remove-one-product').click(function(){
-
-                        let idProduct=this.id.substr(14)                     
-                        $.ajax({
-                            url:'/{{lang}}/remove-from-cart/'+idProduct ,
-                            type: "get",
-                            success: function(res) {
-                                console.log("res")
-                                location.reload();
-                            },
-                            error: function(res) {
-                                console.log("Error."+res);
-                            }
-                        });
+            <div class="cd-qty col-sm-6 col-md-9">
+                <span class="unit-cart" id="unit-cart{{this._id}}">
+                    <span class="remove-one-product" id="remove-product{{this._id}}">
+                         <a class="btn-plus-rest" href="#0">-</a>
+                    </span>
+                    {{this.__v}} Uds.
+                        <span class="add-one-product" id="addone-product{{this._id}}">
+                        <a class="btn-plus-rest" href="#0">+</a> 
+                         <span class="price-unidad">({{../langWords.priceU}} {{ this.price}}€)</span>
+                    </span>
+                </span><br>
+                <div>
+                    {{this.name}}
+                </div>
                 
-                    
-                    });
-                });
+            </div>                        
+            <div class="text-right  cd-price col-sm-2">
+                {{this.sumaTotal}}€
+            </div>
+            
+            <a href="#0" id="remove-cart{{this._id}}" class="remove-cart-page">&times</a>
+        </li>
+    </ul>
+    {{/each}}
+    <!-- cd-cart-items -->
+    <div class="cd-cart-total offset-md-9 col-md-4  col-sm-12">
+    <p>
+        Total
+        <span id="total-card">{{totalPrice}}€</span>
+    </p>
+    <!-- cd-cart-total -->
+    {{!-- <p id="empty-cart">
+        <a class="text-danger" href="#0">Vaciar Carro</a>
+    </p> --}}
+    {{#if sessionToken}}
+    <a href="{{path}}{{lang}}/payment" class="checkout-btn btn-shop">{{langWords.tobuy}}</a>
+    {{else}}
+    <a  class="show-login btn-shop"  data-toggle="modal" data-target="#LoginModal" data-whatever="@getbootstrap">{{langWords.login_buy}}</a>
 
-        </script>
+    {{/if}}
+</div>
+<!-- cd-cart -->
+</div>
+
+
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+
+
+        $('#empty-cart').click(function () {
+            emptyCartAjax();
+            location.reload();
+
+        });
+
+        function ajaxCart(idProduct,url){
+            $.ajax({
+		        url:'/{{lang}}'+url+idProduct ,                    
+                type: "get",
+                success: function (res) {
+                    console.log(res)
+                    location.reload();
+                },
+                error: function (res) {
+                    console.log("Error." + res);
+                }
+            });
+    
+        }
+
+        $('.remove-cart-page').click(function () {
+            let idProduct = this.id.substr(11);
+            ajaxCart(idProduct,'/delete-product-cart-complete/');
+        });
+
+
+        $('.add-one-product').click(function () {
+            let idProduct = this.id.substr(14);
+            ajaxCart(idProduct,'/add-to-cart/');
+        });
+        
+        $('.remove-one-product').click(function () {
+            let idProduct = this.id.substr(14);
+            ajaxCart(idProduct,'/remove-from-cart/');
+        });
+
+
+    
+    });
+
+</script>

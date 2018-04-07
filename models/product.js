@@ -38,7 +38,6 @@ const ProductSchema = Schema({
 
 });
 
-
 var product = mongoose.model('Product', ProductSchema, 'product');
 var category= mongoose.model('Category', CategorySchema, 'category');
 module.exports={product,category}
