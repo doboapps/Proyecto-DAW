@@ -9,11 +9,11 @@
 
 ScreenShots de la tienda Online:
 
-![Screenshot1](images/screenshots/front1.png)
+![Screenshot1](public/images/screenshots/front1.png)
 [VER PROYECTO](https://project-daw.herokuapp.com/es/)
-![Screenshot2](images/screenshots/front2.png)
+![Screenshot2](public/images/screenshots/front2.png)
 [VER PROYECTO](https://project-daw.herokuapp.com/es/)
-![Screenshot3](images/screenshots/front3.png)
+![Screenshot3](public/images/screenshots/front3.png)
 [VER PROYECTO](https://project-daw.herokuapp.com/es/)
-![Screenshot4](images/screenshots/admin.png)
+![Screenshot4](public/images/screenshots/admin.png)
 [VER PROYECTO](https://project-daw.herokuapp.com/es/)
